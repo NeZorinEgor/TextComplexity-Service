@@ -1,0 +1,3 @@
+[submodule "analysis_service/lib/asio"]
+	path = analysis_service/lib/asio
+	url = https://github.com/boostorg/asio.git
