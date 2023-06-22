@@ -1,5 +1,7 @@
 #include "iostream"
-//#include "lib/asio/include/boost/asio.hpp"
+#include <text_analys.pb.h>
+
+#define __STDC_FORMAT_MACROS
 
 int main() {
     std::cout << "test txt";
