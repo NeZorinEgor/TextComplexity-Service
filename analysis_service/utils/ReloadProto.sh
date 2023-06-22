@@ -1,0 +1,1 @@
+./protoc -I ../protos --grpc_out=../protos/generate/cpp --plugin=protoc-gen-grpc=`which grpc_cpp_plugin` ../protos/text_analys.proto 

@@ -13,11 +13,9 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/lib/grpc/cmake")
 add_subdirectory(lib/grpc)
 
 file(GLOB PROTOBUF_MODELS_SOURCES "protos/generate/cpp/*.pb.cc")
-file(GLOB PROTOBUF_MODELS_INCLUDES "protos/generate/cpp/*.hpp")
 
-include_directories(${PROTOBUF_MODELS_INCLUDES})
+add_executable(analysis_service main.cpp router.cpp ${PROTOBUF_MODELS_SOURCES})
 
-add_executable(analysis_service ${SRC} ${PROTOBUF_MODELS_SOURCES})
-target_include_directories(analysis_service PUBLIC ${PROTOBUF_MODELS_INCLUDES})
+include_directories(protos/generate/cpp)
 
 target_link_libraries(analysis_service grpc++)
