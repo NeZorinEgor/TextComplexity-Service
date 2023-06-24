@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 2.8)
 
 project(Analisys_service)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 set(ABSL_ENABLE_INSTALL ON)
 
 file(GLOB SRC
@@ -14,7 +18,7 @@ add_subdirectory(lib/grpc)
 
 file(GLOB PROTOBUF_MODELS_SOURCES "protos/generate/cpp/*.pb.cc")
 
-add_executable(analysis_service main.cpp router.cpp ${PROTOBUF_MODELS_SOURCES})
+add_executable(analysis_service ${SRC} ${PROTOBUF_MODELS_SOURCES})
 
 include_directories(protos/generate/cpp)
 
