@@ -1,13 +1,19 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
+	"time"
+
+	cl "go_microservice/pkg/client"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
+	"google.golang.org/grpc"
 )
 
 type MyObject struct {
@@ -151,5 +157,23 @@ func handleFunc() {
 }
 
 func main() {
-	handleFunc()
+	conn, err := grpc.Dial("188.168.25.28:21112", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+	c := cl.NewTextAnalysServiceClient(conn)
+	fmt.Println(time.Now().String())
+
+	result, err := c.GetResult(context.Background(), &cl.SettingsTextPB{
+		Text: "I love you",
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(time.Now().String())
+	fmt.Println(result.GetHardReading())
+	fmt.Println(result.GetWaterValue())
+	fmt.Println(result.GetMood())
+	// handleFunc()
 }
