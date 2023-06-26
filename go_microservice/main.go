@@ -17,17 +17,18 @@ import (
 )
 
 type MyObject struct {
-	happiness float64
-	water     float64
+	reading uint16
+	water   uint16
+	mood    string
 }
 
 // Структура статьи
 type State struct {
-	Id        uint16
-	Title     string
-	Full_text string
-	Happiness float64
-	Water     float64
+	Id      uint16
+	Title   string
+	Reading uint16
+	Water   uint16
+	Mood    string
 }
 
 var posts = []State{}
@@ -36,8 +37,9 @@ var showPost = State{}
 // Временная замена grpc
 func GetObject() MyObject {
 	obj := MyObject{
-		happiness: 0.8,
-		water:     0.5,
+		reading: 3,
+		water:   5,
+		mood:    "sad",
 	}
 	return obj
 }
@@ -53,6 +55,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	// Connect to DB
 	db, err := sql.Open("mysql", "EGOR:EGOR@tcp(127.0.0.1:3305)/calendar")
 	if err != nil {
+		fmt.Println(err.Error())
 		panic(err)
 	}
 	defer db.Close()
@@ -60,6 +63,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	// Выборка данных
 	res, err := db.Query("Select * from `states`")
 	if err != nil {
+		fmt.Println(err.Error())
 		panic(err)
 	}
 
@@ -67,8 +71,9 @@ func index(w http.ResponseWriter, r *http.Request) {
 	posts = []State{}
 	for res.Next() {
 		var post State
-		err = res.Scan(&post.Id, &post.Title, &post.Full_text, &post.Happiness, &post.Water)
+		err = res.Scan(&post.Id, &post.Title, &post.Reading, &post.Water, &post.Mood)
 		if err != nil {
+			fmt.Println(err.Error())
 			panic(err)
 		}
 		posts = append(posts, post)
@@ -81,25 +86,27 @@ func index(w http.ResponseWriter, r *http.Request) {
 // Обработка передачи статьи
 func saveArticle(w http.ResponseWriter, r *http.Request) {
 	title := r.FormValue("title")
-	full_text := r.FormValue("full_text")
 	var add_info = GetObject()
-	happiness := add_info.happiness
+	reading := add_info.reading
 	water := add_info.water
+	mood := add_info.mood
 
-	if title == "" || full_text == "" {
+	if title == "" {
 		fmt.Fprintf(w, "Не все данные заполнены")
 	} else {
 		// Connect to DB
 		db, err := sql.Open("mysql", "EGOR:EGOR@tcp(127.0.0.1:3305)/calendar")
 		if err != nil {
+			fmt.Println(err.Error())
 			panic(err)
 		}
 		defer db.Close()
 
 		//Внесение данных в DB
-		insert, err := db.Query(fmt.Sprintf("INSERT INTO `states` (`title`, `full_text`, `happines`, `water`) VALUES ('%s', '%s', '%f', '%f')", title, full_text, happiness, water))
+		insert, err := db.Query(fmt.Sprintf("INSERT INTO `states` (`title`, `reading`, `water`, `mood`) VALUES ('%s', '%d', '%d', '%s')", title, reading, water, mood))
 
 		if err != nil {
+			fmt.Println(err.Error())
 			panic(err)
 		}
 		defer insert.Close()
@@ -121,6 +128,7 @@ func show_post(w http.ResponseWriter, r *http.Request) {
 	// Connect to DB
 	db, err := sql.Open("mysql", "EGOR:EGOR@tcp(127.0.0.1:3305)/calendar")
 	if err != nil {
+		fmt.Println(err.Error())
 		panic(err)
 	}
 	defer db.Close()
@@ -128,18 +136,21 @@ func show_post(w http.ResponseWriter, r *http.Request) {
 	// Выборка данных
 	res, err := db.Query(fmt.Sprintf("Select * From `states` WHERE `id` = '%s'", vars["id"]))
 	if err != nil {
+		fmt.Println(err.Error())
 		panic(err)
 	}
 
 	var showPost = State{}
 	for res.Next() {
 		var post State
-		err = res.Scan(&post.Id, &post.Title, &post.Full_text, &post.Happiness, &post.Water)
+		err = res.Scan(&post.Id, &post.Title, &post.Reading, &post.Water, &post.Mood)
 		if err != nil {
+			fmt.Println(err.Error())
 			panic(err)
 		}
 		showPost = post
 	}
+
 	t.ExecuteTemplate(w, "show", showPost)
 
 }
