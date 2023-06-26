@@ -31,7 +31,7 @@ type State struct {
 var posts = []State{}
 var showPost = State{}
 
-// Временная замена grpc
+// Временная замена grpc .
 func GetObject() MyObject {
 	obj := MyObject{
 		reading: 3,
