@@ -59,7 +59,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 		log.Println("Error", err.Error())
 		panic(err)
 	} else {
-		log.Println("Info", "ДБ ОК")
+		log.Println("Info", "DB OK")
 	}
 	defer db.Close()
 
@@ -106,7 +106,7 @@ func saveArticle(w http.ResponseWriter, r *http.Request) {
 			log.Println("Error", err.Error())
 			panic(err)
 		} else {
-			log.Println("Info", "ДБ ОК")
+			log.Println("Info", "DB OK")
 		}
 		defer db.Close()
 
