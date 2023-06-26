@@ -41,6 +41,7 @@ func fileUploadHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		text := strings.ReplaceAll(string(content), "\n", " ")
+		text = strings.ReplaceAll(text, "\r", "")
 
 		f, err := os.Create(uploadedFilePath)
 		if err != nil {
