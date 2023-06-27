@@ -81,8 +81,8 @@ func fileUploadHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Вывести содержимое на веб-страницу
-		fmt.Fprintf(w, "File content saved to uploaded_file.txt<br>")
-		fmt.Fprintf(w, "Content:<br><pre>%s</pre>", content)
+
+		fmt.Fprintf(w, "%s>", content)
 	}
 }
 
