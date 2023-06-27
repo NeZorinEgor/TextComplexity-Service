@@ -26,7 +26,7 @@ func main() {
 	r.HandleFunc("/", fileUploadHandler).Methods("GET")
 	r.HandleFunc("/", fileUploadHandler).Methods("POST")
 	http.Handle("/", r)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8000", nil))
 }
 
 func fileUploadHandler(w http.ResponseWriter, r *http.Request) {
@@ -126,10 +126,11 @@ func analyzeText(w http.ResponseWriter, text string) {
 
 	// Вывести результаты анализа на веб-страницу
 	fmt.Fprintf(w, "Analysis Result:\n")
-	fmt.Fprintf(w, "Timestamp: %s\n", time.Now().String())
-	fmt.Fprintf(w, "Hard Reading: %s\n", result.GetHardReading())
-	fmt.Fprintf(w, "Water Value: %s\n", result.GetWaterValue())
+	fmt.Fprintf(w, "Timestamp: %s\n", time.Now().Format("2006-01-02 15:04:05"))
+	fmt.Fprintf(w, "Hard Reading: %d\n", result.GetHardReading())
+	fmt.Fprintf(w, "Water Value: %d\n", result.GetWaterValue())
 	fmt.Fprintf(w, "Mood: %s\n", result.GetMood())
+
 }
 
 func readPdf(path string) (string, error) {
