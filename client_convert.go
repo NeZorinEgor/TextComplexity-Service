@@ -7,17 +7,19 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
+	"path/filepath"
 
 	"github.com/ledongthuc/pdf"
 )
 
+var uploadedFilePath = "uploaded_file.txt"
+
 func main() {
-	http.HandleFunc("/", uploadHandler)
+	http.HandleFunc("/", fileUploadHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-func uploadHandler(w http.ResponseWriter, r *http.Request) {
+func fileUploadHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		// Отобразить форму для загрузки файла
 		fmt.Fprintf(w, `
@@ -35,15 +37,18 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == "POST" {
-		file, _, err := r.FormFile("file")
+		file, handler, err := r.FormFile("file")
 		if err != nil {
 			http.Error(w, "Failed to retrieve file", http.StatusBadRequest)
 			return
 		}
 		defer file.Close()
 
+		// Получить расширение файла
+		fileExtension := filepath.Ext(handler.Filename)
+
 		// Сохранить загруженный файл на диск
-		tempFile, err := ioutil.TempFile("", "uploaded_file.*.pdf")
+		tempFile, err := ioutil.TempFile("", "uploaded_file_*"+fileExtension)
 		if err != nil {
 			http.Error(w, "Failed to save file", http.StatusInternalServerError)
 			return
@@ -56,23 +61,28 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// Обработать сохраненный файл с помощью функции readPdf
-		content, err := readPdf(tempFile.Name())
+		// Обработать сохраненный файл
+		var content string
+		if fileExtension == ".pdf" {
+			content, err = readPdf(tempFile.Name())
+		} else {
+			content, err = readTextFile(tempFile.Name())
+		}
 		if err != nil {
-			http.Error(w, "Failed to process PDF", http.StatusInternalServerError)
+			http.Error(w, "Failed to process file", http.StatusInternalServerError)
 			return
 		}
 
-		// Сохранить содержимое PDF в текстовый файл
-		err = saveTextFile("uploaded_file.txt", content)
+		// Сохранить содержимое в текстовый файл
+		err = saveTextFile(uploadedFilePath, content)
 		if err != nil {
 			http.Error(w, "Failed to save content", http.StatusInternalServerError)
 			return
 		}
 
-		// Вывести содержимое PDF на веб-страницу
-		fmt.Fprintf(w, "PDF content saved to uploaded_file.txt<br>")
-		fmt.Fprintf(w, "PDF content:<br><pre>%s</pre>", content)
+		// Вывести содержимое на веб-страницу
+		fmt.Fprintf(w, "File content saved to uploaded_file.txt<br>")
+		fmt.Fprintf(w, "Content:<br><pre>%s</pre>", content)
 	}
 }
 
@@ -92,17 +102,18 @@ func readPdf(path string) (string, error) {
 	return buf.String(), nil
 }
 
+func readTextFile(path string) (string, error) {
+	content, err := ioutil.ReadFile(path)
+	if err != nil {
+		return "", err
+	}
+	return string(content), nil
+}
+
 func saveTextFile(filename, content string) error {
-	file, err := os.Create(filename)
+	err := ioutil.WriteFile(filename, []byte(content), 0644)
 	if err != nil {
 		return err
 	}
-	defer file.Close()
-
-	_, err = file.WriteString(content)
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
