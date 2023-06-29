@@ -5,30 +5,17 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include "constants.hpp"
 
 namespace aal {
-
-struct Result {
-	enum class TypeMood {
-		Sad = 0,
-		Happy = 1,
-		Lovely = 2,
-		Terrible = 3,
-		Boring = 4
-	};
-
-	int water;
-	TypeMood mood;
-	int hard;
-};
 
 Result analys(const std::string&);
 
 namespace Impl {
 
 std::pair<float, float> getAverageSentenceWordLength(const std::string&);
-//отношение чисел и слов в ковычках ко всем другим 
-//количество чисел на 1000 слов
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 1000 пїЅпїЅпїЅпїЅ
 float getConcret(const std::string&);
 
 template <class T>
