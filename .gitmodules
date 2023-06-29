@@ -1,3 +1,6 @@
 [submodule "analysis_service/lib/grpc"]
 	path = analysis_service/lib/grpc
 	url = git@github.com:grpc/grpc.git
+[submodule "analysis_service/lib/SQLiteCpp"]
+	path = analysis_service/lib/SQLiteCpp
+	url = git@github.com:SRombauts/SQLiteCpp.git
