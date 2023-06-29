@@ -2,20 +2,22 @@
 {{ template "header" }}
 
 
-    <form action="/save_article" method="post">
+    <form action="/save_article" method="post" enctype="multipart/form-data">
       <h1 class="form_h">Форма добавления статьи</h1>
       <input
         type="text"
         name="title"
         id="title"
-        placeholder="Введите название статьи"
+        placeholder="Введите название файла"
         class="form-control"
+        required
       /><br />
-      <!-- <input name="reading id="reading" type="range" min="1" max="10">
-      <br />
-      <input type="range" min="1" max="10">
-      <br /> -->
-      <button class="btn btn-warning">Добавить</button>
+      <input type="file" name="file">
+      <br/>
+
+
+      <button class="btn btn-warning" value="Upload">Добавить</button>
+      <!-- <input type="submit" value="Upload"> -->
     </form>
 
     {{ range . }}
