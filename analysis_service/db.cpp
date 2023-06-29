@@ -1,7 +1,7 @@
 #include "db.h"
 #include <iostream>
 
-static const std::string kDBPath = "/home/artem/analysis_local_db.sqlite";
+static const std::string kDBPath = "/etc/analysis_local_db.sqlite";
 
 AppDB &AppDB::Instanse() {
     static AppDB inst = AppDB();

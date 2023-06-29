@@ -6,8 +6,6 @@
 
 //188.168.25.28 21112
 int main(int argc, char* argv[]) {
-
-    /*
     if(argc!=3)
         return -1;
     RouterService router;
@@ -17,6 +15,4 @@ int main(int argc, char* argv[]) {
     std::unique_ptr<grpc::Server> server(builder.BuildAndStart());
     server->Wait();
     return 0;
-    */
-    
 }
