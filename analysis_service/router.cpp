@@ -1,6 +1,7 @@
 #include "router.hpp"
 #include "analys_alg.h"
 #include "db.h"
+#include <iostream>
 
 static int32_t crc32(size_t len, const void* data, const unsigned int POLY = 0x04C11DB7) {
     const unsigned char* buffer = (const unsigned char*)data;
@@ -29,8 +30,10 @@ static int32_t crc32(size_t len, const void* data, const unsigned int POLY = 0x0
 //work with hashes
     int32_t hash = crc32(request->text().size(), request->text().c_str());
     auto opt = AppDB::Instanse().getResult(hash); //TODO CRC32 
-    if(opt.has_value())
+    if(opt.has_value()) {
         result = opt.value();
+std::cout << "Db use hashes\n";
+    }
     else {
         result = aal::analys(request->text()); 
         AppDB::Instanse().addResult(hash,result); //TODO CRC32
