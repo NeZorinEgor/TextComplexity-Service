@@ -20,8 +20,7 @@
 git clone https://github.com/NeZorinEgor/microservice_1.0
 ```
 
-```
-3. Установите зависимости
+2. Установите зависимости
 ```bash
 go get github.com/go-sql-driver/mysql
 go get github.com/gorilla/mux
