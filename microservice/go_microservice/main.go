@@ -97,13 +97,6 @@ func analyzeText(w http.ResponseWriter, text string) {
 		return
 	}
 
-	// values = append(values, result.GetHardReading())
-	// values = append(values, result.GetWaterValue())
-	// values = append(values, result.GetMood())
-	// values[0] = result.HardReading
-	// values[1] = result.WaterValue
-	// values[2] = result.Mood
-
 	values = append(values, result.GetHardReading())
 	values = append(values, result.GetWaterValue())
 	values = append(values, result.GetMood())
@@ -117,28 +110,23 @@ func index(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("templates/index.html", "templates/header.html", "templates/footer.html")
 
 	if err != nil {
-		// fmt.Fprintf(w, err.Error())
-		// log.Println(w, err.Error())
-		log.Println("Error", err.Error())
-
+		log.Println("ERROR Templates", err.Error())
 	}
 
 	// Connect to DB
 	db, err := sql.Open("mysql", "EGOR:EGOR@tcp(127.0.0.1:3305)/calendar")
 	if err != nil {
-		// fmt.Println(err.Error())
-		log.Println("Error", err.Error())
+		log.Println("ERROR DB", err.Error())
 		panic(err)
 	} else {
-		log.Println("Info", "DB OK")
+		log.Println("INFO", "DB OK")
 	}
 	defer db.Close()
 
 	// Выборка данных
 	res, err := db.Query("Select * from `states`")
 	if err != nil {
-		// fmt.Println(err.Error())
-		log.Println("Error", err.Error())
+		log.Println("ERROR DB Select", err.Error())
 		panic(err)
 	}
 
@@ -148,8 +136,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 		var post State
 		err = res.Scan(&post.Id, &post.Title, &post.Reading, &post.Water, &post.Mood)
 		if err != nil {
-			// fmt.Println(err.Error())
-			log.Println("Error", err.Error())
+			log.Println("ERROR", err.Error())
 			panic(err)
 		}
 		posts = append(posts, post)
@@ -215,11 +202,10 @@ func saveArticle(w http.ResponseWriter, r *http.Request) {
 	db, err := sql.Open("mysql", "EGOR:EGOR@tcp(127.0.0.1:3305)/calendar")
 
 	if err != nil {
-		// fmt.Println(err.Error())
-		log.Println("Error", err.Error())
+		log.Println("ERROR DB", err.Error())
 		panic(err)
 	} else {
-		log.Println("Info", "DB OK")
+		log.Println("INFO", "DB OK")
 	}
 	defer db.Close()
 
@@ -227,10 +213,10 @@ func saveArticle(w http.ResponseWriter, r *http.Request) {
 	insert, err := db.Query(fmt.Sprintf("INSERT INTO `states` (`title`, `reading`, `water`, `mood`) VALUES ('%s', '%d', '%d', '%s')", title, values[0], values[1], values[2]))
 
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Println("ERROR DB", err.Error())
 		panic(err)
 	} else {
-		log.Println("Info", "Внесли новую запись в БД")
+		log.Println("INFO", "Внесли новую запись в БД")
 	}
 	defer insert.Close()
 
@@ -240,7 +226,7 @@ func saveArticle(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	log.Printf("Последний ID: %d", lastID)
+	log.Printf("INFO Последний ID: %d", lastID)
 	postID := lastID
 	postIDString := strconv.Itoa(postID)
 	redirectURL := "/post/" + postIDString
@@ -255,16 +241,13 @@ func show_post(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("templates/show.html", "templates/header.html", "templates/footer.html")
 
 	if err != nil {
-		// fmt.Fprintf(w, err.Error())
-		log.Println("Error", err.Error())
+		log.Println("ERROR", err.Error())
 	}
 
 	// Connect to DB
 	db, err := sql.Open("mysql", "EGOR:EGOR@tcp(127.0.0.1:3305)/calendar")
 	if err != nil {
-		// fmt.Println(err.Error())
-		// fmt.Fprintf(w, err.Error())
-		log.Println("Error", err.Error())
+		log.Println("ERROR", err.Error())
 		panic(err)
 	}
 	defer db.Close()
@@ -272,8 +255,7 @@ func show_post(w http.ResponseWriter, r *http.Request) {
 	// Выборка данных
 	res, err := db.Query(fmt.Sprintf("Select * From `states` WHERE `id` = '%s'", vars["id"]))
 	if err != nil {
-		// fmt.Println(err.Error())
-		log.Println("Error", err.Error())
+		log.Println("ERROR", err.Error())
 		panic(err)
 	}
 
@@ -282,16 +264,20 @@ func show_post(w http.ResponseWriter, r *http.Request) {
 		var post State
 		err = res.Scan(&post.Id, &post.Title, &post.Reading, &post.Water, &post.Mood)
 		if err != nil {
-			// fmt.Println(err.Error())
-			log.Println("Error", err.Error())
+			log.Println("ERROR", err.Error())
 			panic(err)
 		}
 		showPost = post
 	}
 
-	log.Printf("результат - %d, %d, %s", values[0], values[1], values[2])
+	log.Printf("INFO параметры поста - %d, %d, %s", showPost.Reading, showPost.Water, showPost.Mood)
 
-	t.ExecuteTemplate(w, "show", showPost)
+	if showPost.Title == "" && showPost.Reading == 0 && showPost.Water == 0 && showPost.Mood == "" {
+		log.Println("Warning", "ID отсутствует")
+		fmt.Fprintln(w, "ID отсутствует")
+	} else {
+		t.ExecuteTemplate(w, "show", showPost)
+	}
 
 }
 
