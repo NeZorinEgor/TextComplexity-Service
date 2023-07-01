@@ -12,12 +12,11 @@
         class="form-control"
         required
       /><br />
-      <input type="file" name="file">
+      <input class="input-file-btn" type="file" name="file">
       <br/>
 
 
-      <button class="btn btn-warning" value="Upload">Добавить</button>
-      <!-- <input type="submit" value="Upload"> -->
+      <button class="input_btn" value="Upload">Добавить</button>
     </form>
 
     {{ range . }}
@@ -26,7 +25,7 @@
         <span>{{ .Title }}</span>
       </div>
       <div>
-        <a href="/post/{{ .Id }}" class="btn btn-danger">Подробнее</a>
+        <a href="/post/{{ .Id }}" class="card_a btn btn-danger">Подробнее</a>
       </div>
     </div>
     {{ else }}

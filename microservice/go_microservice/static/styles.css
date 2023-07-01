@@ -93,6 +93,37 @@ input, select {
     vertical-align:middle;
 }
 
+
+.back {
+  display: block;
+  padding: 10px;
+  /* -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2); */
+  text-align: center;
+  margin: 0 auto;
+  font-size: 16px;
+  font-family: "roboto", sans-serif;
+  text-decoration: none;
+  color: #fff;
+  background-color: #419152;
+}
+
+footer{
+  /* flex: 0 0 auto; */
+  text-align: center;
+  margin: 0 auto;
+  font-size: 16px;
+  font-family: "roboto", sans-serif;
+  text-decoration: none;
+  color: #fff;
+  background-color: #419152;
+  display: block;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+
 .container{
   max-width: 1220px;
   padding: 0 10px;
@@ -150,6 +181,7 @@ textarea:focus{
 
 
 .card {
+  text-decoration: none;
   width: 90%;
   height: 50px;
   /* margin: 20px; */
@@ -173,6 +205,11 @@ textarea:focus{
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 5px;
+}
+
+.card_a{
+  text-decoration: none;
+  color: #419152;
 }
 
 .card_show{
@@ -211,51 +248,8 @@ h2{
   overflow: auto;
 }
 
-.back{
-  padding: 10px;
-  width: 200px;
-  -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
-  -moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
-  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
-  border-radius: 10px;
-  text-align: center;
-  margin: 20px auto;
-}
 
 
-/* .animated-progress {
-  width: 300px;
-  height: 30px;
-  border-radius: 5px;
-  margin: 20px 10px;
-  border: 1px solid rgb(189, 113, 113);
-  overflow: hidden;
-  position: relative;
-}
-
-.animated-progress span {
-  height: 100%;
-  display: block;
-  width: 0;
-  color: rgb(255, 251, 251);
-  line-height: 30px;
-  position: absolute;
-  text-align: end;
-  padding-right: 5px;
-}
-
-.progress-blue span {
-  background-color: blue;
-}
-.progress-green span {
-  background-color: green;
-}
-.progress-purple span {
-  background-color: indigo;
-}
-.progress-red span {
-  background-color: red;
-} */
 
 
 #progress-bar {
@@ -275,4 +269,54 @@ h2{
   width: 16px;
   height: 16px;
   vertical-align: middle;
+}
+
+.input-file {
+	position: relative;
+	display: inline-block;
+
+}
+.input-file-btn {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	outline: none;
+	text-decoration: none;
+	font-size: 14px;
+	vertical-align: middle;
+	color: rgb(255 255 255);
+	text-align: center;
+	border-radius: 10px;
+	background-color: #419152;
+	line-height: 22px;
+	height: 40px;
+	padding: 10px 20px;
+	box-sizing: border-box;
+	border: none;
+	margin: 0;
+	transition: background-color 0.2s;
+  margin-bottom: 20px;
+}
+
+
+.input_btn{
+  position: relative;
+	display: inline-block;
+	cursor: pointer;
+	outline: none;
+	text-decoration: none;
+	font-size: 14px;
+	vertical-align: middle;
+	color: rgb(255 255 255);
+	text-align: center;
+	border-radius: 10px;
+	background-color: #419152;
+	line-height: 22px;
+	height: 40px;
+	padding: 10px 20px;
+	box-sizing: border-box;
+	border: none;
+	margin: 0;
+	transition: background-color 0.2s;
+  margin-bottom: 20px;
 }
