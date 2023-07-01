@@ -45,6 +45,6 @@ go run main.go
 
 ## Руководство пользователя
 
-![Альтернативный текст](ссылка_на_гифку.gif)
+![Альтернативный текст](https://github.com/NeZorinEgor/microservice_1.0/blob/main/static/screen.gif?raw=true)
 
 ##
