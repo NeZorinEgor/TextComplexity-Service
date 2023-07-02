@@ -35,7 +35,18 @@ go get google.golang.org/grpc
 cd go_microservice
 ```
 
-2. Пропишите в директории проекта команду
+2. Создайте таблицу в базе данных
+```sql
+CREATE TABLE `states` (
+  `id` int UNSIGNED NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `reading` int UNSIGNED NOT NULL,
+  `water` int UNSIGNED NOT NULL,
+  `mood` varchar(20) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+```
+
+4. Пропишите в директории проекта команду
 
 ```go
 go run main.go
