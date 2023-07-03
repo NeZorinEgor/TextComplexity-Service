@@ -1,6 +1,8 @@
 
 <img src="https://img.shields.io/badge/Golang-007d9c?style=for-the-badge&logo=Go&logoColor=ffffff"/>  <img src="https://img.shields.io/badge/++-369?style=for-the-badge&logo=C&logoColor=ffffff"/>  <img src="https://img.shields.io/badge/gRpc-399?style=for-the-badge&logo=&logoColor=000000"/> 
 
+<img src="https://img.shields.io/badge/mysql-00758F?style=for-the-badge&logo=mysql&logoColor=F29111"/> <img src="https://img.shields.io/badge/postgresql-369?style=for-the-badge&logo=postgresql&logoColor=ffffff"/>
+
 
 
 
